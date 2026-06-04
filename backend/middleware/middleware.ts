@@ -15,16 +15,20 @@ export default function middleware(
     res: Response,
     next: NextFunction
 ) {
-    const token = req.headers.authorization;
+    const tokenWithBearer = req.headers.authorization;
 
-    if (!token) {
+    const splitToken = tokenWithBearer?.split(" ");
+    
+    if (!tokenWithBearer || !splitToken) {
         return res.status(401).json({
             message: "Token missing",
         });
-    }
+    };
 
+    const token = splitToken[1];
+    
     try {
-        const data = jwt.verify(token, JWT_SECRET!) as jwt.JwtPayload;
+        const data = jwt.verify(token!, JWT_SECRET!) as jwt.JwtPayload;
 
         req.userId = data.id;
 

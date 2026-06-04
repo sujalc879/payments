@@ -1,13 +1,17 @@
 import express from 'express'
 const app = express();
 
+import cors from 'cors'
+import mongoose from 'mongoose';
+
 import authRoutes from './routes/auth.route';
 import accountRoutes from './routes/account.route';
 
-import mongoose from 'mongoose';
 import middleware from './middleware/middleware';
 
 const PORT = 3000;
+
+app.use(cors());
 
 app.use(express.json());
 

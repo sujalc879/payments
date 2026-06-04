@@ -1,0 +1,218 @@
+.dashboard-page {
+    min-height: 100vh;
+    background: linear-gradient(
+        135deg,
+        #0f172a,
+        #1e293b,
+        #334155
+    );
+    font-family: Inter, system-ui, sans-serif;
+    color: white;
+}
+
+.dashboard-navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 40px;
+    border-bottom: 1px solid
+        rgba(255, 255, 255, 0.08);
+}
+
+.navbar-logo {
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.navbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.navbar-user {
+    color: #cbd5e1;
+}
+
+.logout-button {
+    border: none;
+    padding: 10px 16px;
+    border-radius: 10px;
+    background: rgba(
+        255,
+        255,
+        255,
+        0.12
+    );
+    color: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.logout-button:hover {
+    background: rgba(
+        255,
+        255,
+        255,
+        0.18
+    );
+}
+
+.dashboard-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.welcome-section h1 {
+    margin-bottom: 8px;
+    font-size: 2.25rem;
+}
+
+.welcome-section p {
+    color: #cbd5e1;
+}
+
+.balance-card {
+    background: linear-gradient(
+        135deg,
+        #2563eb,
+        #3b82f6
+    );
+    border-radius: 24px;
+    padding: 32px;
+    box-shadow: 0 20px 40px
+        rgba(0, 0, 0, 0.2);
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.balance-card:hover {
+    transform: translateY(-4px);
+}
+
+.balance-label {
+    font-size: 0.95rem;
+    opacity: 0.9;
+}
+
+.balance-amount {
+    margin-top: 12px;
+    font-size: 3rem;
+    font-weight: 700;
+}
+
+.balance-footer {
+    margin-top: 8px;
+    opacity: 0.9;
+}
+
+.transfer-card {
+    background: rgba(
+        255,
+        255,
+        255,
+        0.95
+    );
+    color: #0f172a;
+    border-radius: 24px;
+    padding: 32px;
+    box-shadow: 0 20px 40px
+        rgba(0, 0, 0, 0.15);
+}
+
+.transfer-card h2 {
+    margin-bottom: 20px;
+}
+
+.transfer-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.transfer-form input {
+    width: 100%;
+    padding: 14px 16px;
+    border: 1px solid #dbe2ea;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    outline: none;
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.transfer-form input:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 4px
+        rgba(37, 99, 235, 0.15);
+}
+
+.transfer-button {
+    border: none;
+    padding: 14px;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: white;
+    background: linear-gradient(
+        135deg,
+        #2563eb,
+        #3b82f6
+    );
+    cursor: pointer;
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.transfer-button:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px
+        rgba(37, 99, 235, 0.25);
+}
+
+.transfer-button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+    .dashboard-navbar {
+        padding: 20px;
+    }
+
+    .navbar-actions {
+        gap: 10px;
+    }
+
+    .balance-amount {
+        font-size: 2.25rem;
+    }
+
+    .transfer-card,
+    .balance-card {
+        padding: 24px;
+    }
+}
+
+@media (max-width: 600px) {
+    .dashboard-navbar {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .navbar-actions {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .welcome-section h1 {
+        font-size: 1.8rem;
+    }
+}

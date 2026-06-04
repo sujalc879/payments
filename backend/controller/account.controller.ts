@@ -8,11 +8,11 @@ export async function getBalance(
     const userId = req.userId;
 
     const account = await accountModel.findOne({
-        userId : userId
+        userId: userId
     });
 
     if (!account) {
-        res.status(403).json({ message : "account not found"});
+        res.status(403).json({ message: "account not found" });
         return;
     };
 
@@ -25,97 +25,104 @@ export async function transfer(
     req: Request,
     res: Response
 ) {
-    
+
     const userId = req.userId;
     const transferAmount: number = req.body.transferAmount;
     const receipentEmail: string = req.body.email;
-    
+
     const account = await accountModel.findOne({
-        userId : userId
+        userId: userId
     });
-    
+
     if (!account || !account.balance) {
-        res.status(403).json({ message : "account not found or you dont have mony"});
+        res.status(403).json({ message: "account not found or you dont have mony" });
         return;
     };
-    
+
     const accountBalance = account.balance;
-    
+
     if (transferAmount > accountBalance) {
-        res.status(403).json({ message : "you dont have enough money to spend"});
-        return;    
+        res.status(403).json({ message: "you dont have enough money to spend" });
+        return;
     }
-    
+
+    if (transferAmount <= 0) {
+        res.status(400).json({
+            message: "amount must be greater than 0"
+        });
+        return;
+    }
+
     const receipentDetails = await userModel.findOne({
-        email : receipentEmail
+        email: receipentEmail
     });
-    
+
     if (!receipentDetails) {
-        res.status(403).json({ message : "receipent account does not exist, please check receipent address"});
-        return;    
+        res.status(403).json({ message: "receipent account does not exist, please check receipent address" });
+        return;
     };
-    
+
     // make sure that user cant transfer into his own account
     if (receipentDetails._id.toString() === account.userId.toString()) {
-        res.status(403).json({ message : "you cant transfer money into your own account"});
-        return;    
-        
+        res.status(403).json({ message: "you cant transfer money into your own account" });
+        return;
+
     }
-    
+
     const receipentAccount = await accountModel.findOne({
-        userId : receipentDetails._id
+        userId: receipentDetails._id
     });
-    
-    
+
+
     if (!receipentAccount) {
-        res.status(403).json({ message : "receipent account does not exist, please check receipent address (2)"});
-        return;    
+        res.status(403).json({ message: "receipent account does not exist, please check receipent address (2)" });
+        return;
     };
-    
+
     const remainingAmount = accountBalance - transferAmount;
-    
+
     const debitMoney = await accountModel.findOneAndUpdate(
         {
-            userId : userId
+            userId: userId
         },
         {
-            $set : {
-                balance : remainingAmount
+            $set: {
+                balance: remainingAmount
             }
         }, {
-            returnDocument : "after"
-        }
+        returnDocument: "after"
+    }
     );
-    
+
     if (!debitMoney) {
-        res.status(403).json({ message : "money transfer fails"});
-        return;    
-        
+        res.status(403).json({ message: "money transfer fails" });
+        return;
+
     };
 
     const existingBalance = receipentAccount.balance;
 
     const totalTransferAmount = existingBalance! + transferAmount;
-    
+
     const creditMoney = await accountModel.findOneAndUpdate(
         {
-            userId : receipentAccount.userId
+            userId: receipentAccount.userId
         }, {
-            $set : {
-                balance : totalTransferAmount
-            }
+        $set: {
+            balance: totalTransferAmount
         }
+    }
     );
-    
+
     if (!creditMoney) {
-        res.status(403).json({ message : "money transfer fails (2)"});
-        return;    
-        
+        res.status(403).json({ message: "money transfer fails (2)" });
+        return;
+
     };
 
     res.status(200).json({
-        message : "money transfers successfully",
-        currentBalance : debitMoney.balance
+        message: "money transfers successfully",
+        currentBalance: debitMoney.balance
     });
 
 }

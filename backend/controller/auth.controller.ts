@@ -19,7 +19,7 @@ export async function signup(
     const result = inputBody.safeParse(req.body);
 
     if (!result.success) {
-        res.status(403).json({ messasge : "inputs are incorrect"});
+        res.status(403).json({ message : "inputs are incorrect"});
         return;
     };
     
@@ -43,7 +43,7 @@ export async function signup(
         res.status(200).json({ message : "user created successfully"});
 
     } catch (error) {
-        res.status(403).json({ messasge : "this email is already exist try different one"});
+        res.status(403).json({ message : "this email is already exist try different one"});
         
     }
 };
